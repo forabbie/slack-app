@@ -5,9 +5,9 @@ import {
 } from "./services/storage.service";
 // import ProtectedRoutes from "./components/helper//ProtectedRoutes.tsx";
 import LoginPage from "./pages/Login.jsx";
-// import Home from "./pages/Home.tsx";
+import Home from "./pages/Home.jsx";
 import "./App.css";
-// import SignUp from "./pages/SignUp.tsx";
+import SignUp from "./pages/SignUp.jsx";
 
 function App() {
   const constructor = () => {
@@ -28,13 +28,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* temporary default route */}
-        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<ProtectedRoutes />}>
-          <Route path="/home" element={<Home />} />
-        </Route> */}
+        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/" element={<ProtectedRoutes />}> */}
+        <Route path="/" element={<Home />} />
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );
