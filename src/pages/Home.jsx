@@ -5,13 +5,15 @@ import Main from "../components/chat/Main";
 const Home = () => {
   return (
     <>
-      <Header />
-      <main className="h-screen flex flex-col">
-        <div className="flex h-full">
-          <Sidbar />
-          <Main />
-        </div>
-      </main>
+      <body className="h-screen flex flex-col">
+        <Header />
+        <main className="h-full">
+          <div className="flex h-full">
+            <Sidbar />
+            <Main />
+          </div>
+        </main>
+      </body>
     </>
   );
 };
