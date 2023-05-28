@@ -27,7 +27,7 @@ const Sidbar = () => {
         <div className="border-b border-white/25"></div>
         <ul className="menu py-3">
           <li className="menu-title">
-            <span>Channels</span>
+            <a>Channels</a>
           </li>
           <li>
             <a>

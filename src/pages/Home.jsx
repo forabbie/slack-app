@@ -5,7 +5,7 @@ import Main from "../components/chat/Main";
 const Home = () => {
   return (
     <>
-      <body className="h-screen flex flex-col">
+      <div className="h-screen flex flex-col">
         <Header />
         <main className="h-full">
           <div className="flex h-full">
@@ -13,7 +13,7 @@ const Home = () => {
             <Main />
           </div>
         </main>
-      </body>
+      </div>
     </>
   );
 };
