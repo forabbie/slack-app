@@ -1,18 +1,15 @@
 import Header from "../components/Header";
+import Sidbar from "../components/Sidebar";
+import Main from "../components/chat/Main";
 
 const Home = () => {
   return (
     <>
-      {/* <Header /> */}
-      <main>
-        <div className="h-screen flex flex-col">
-          <div className="w-full">
-            <Header />
-          </div>
-          <div className="flex h-full overflow-hidden">
-            {/* <Sidebar/>
-                <Chat/> */}
-          </div>
+      <Header />
+      <main className="h-screen flex flex-col">
+        <div className="flex h-full">
+          <Sidbar />
+          <Main />
         </div>
       </main>
     </>
