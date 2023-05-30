@@ -40,7 +40,7 @@ const Header = () => {
             </Button>
           </div>
           <div className="w-1/5 flex justify-end">
-            <DropDown className={"dropdown-hover"}>
+            <DropDown className={"dropdown-hover z-50"}>
               <DropDownLabel labelClass={"btn-circle btn-ghost text-white"}>
                 <Svg className={"w-8 h-8"}>
                   <path

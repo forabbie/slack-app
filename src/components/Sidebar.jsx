@@ -1,6 +1,40 @@
 /* eslint-disable react/prop-types */
-const Sidbar = (props) => {
-  const { channels, setChannels } = props;
+import { retrieveChannel } from "../services/api.service";
+import {
+  setSessionStorage,
+  getSessionStorage,
+} from "../services/storage.service";
+import { auth } from "../constant/UserConst";
+import { useEffect, useState } from "react";
+
+const Sidebar = (props) => {
+  const { setChannel, channels, handleToggleChannelModal } = props;
+  const [channelIndex, setChannelIndex] = useState(() => {
+    const store = getSessionStorage("CH-Index", false);
+    return parseInt(store) || 0;
+  });
+
+  const fetchChannel = async (id) => {
+    try {
+      const response = await retrieveChannel(auth, id);
+      if (response) {
+        setChannel(response.data);
+      }
+      // console.log(data.data);
+    } catch (error) {
+      console.log("e", error);
+    }
+  };
+  useEffect(() => {
+    fetchChannel(parseInt(getSessionStorage("CH-Index", false)));
+  }, []);
+
+  const onSwitchTab = (params) => {
+    // console.log("params:", channelIndex);
+    setChannelIndex(params.id);
+    setSessionStorage("CH-Index", params.id, false);
+    fetchChannel(params.id);
+  };
 
   return (
     <>
@@ -8,7 +42,7 @@ const Sidbar = (props) => {
         className="flex-none w-1/5 bg-primary-focus text-white text-justify
       "
       >
-        <div className="flex justify-between p-4 ">
+        <div className="flex justify-between px-4 py-2">
           <h1 className="text-2xl">Avion School</h1>
           <button className="btn btn-circle btn-sm bg-white hover:bg-white">
             <svg
@@ -174,9 +208,12 @@ const Sidbar = (props) => {
           <li className="menu-title">
             <a>Channels</a>
           </li>
-          {Object.keys(channels).map((key, i) => (
+          {Object.keys(channels).map((key) => (
             <li key={channels[key].id}>
-              <a className={i === 0 && "active"}>
+              <a
+                className={channels[key].id === channelIndex ? "active" : ""}
+                onClick={() => onSwitchTab(channels[key])}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -194,29 +231,8 @@ const Sidbar = (props) => {
               </a>
             </li>
           ))}
-          {/* {channels.length !== 0 &&
-            channels.map((channel, i) => (
-              <li key={channels[key].id}>
-                <a>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                    />
-                  </svg>
-                  {channels[key].name}
-                </a>
-              </li>
-            ))} */}
           <li>
-            <a className="">
+            <a className="" onClick={() => handleToggleChannelModal()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -250,4 +266,4 @@ const Sidbar = (props) => {
   );
 };
 
-export default Sidbar;
+export default Sidebar;

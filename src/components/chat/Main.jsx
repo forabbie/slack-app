@@ -1,8 +1,15 @@
-const Main = () => {
+/* eslint-disable react/prop-types */
+import ChatHeader from "./ChatHeader";
+// import ChatInput from "./ChatInput";
+
+const Main = (props) => {
+  const { channel } = props;
   return (
     <>
       <section className="flex-1">
-        <div className="text-center">inner</div>
+        <ChatHeader channel={channel} />
+        {/* <div className="text-center">inner</div> */}
+        {/* <ChatInput /> */}
       </section>
     </>
   );

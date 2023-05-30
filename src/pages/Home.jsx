@@ -1,32 +1,51 @@
 import Header from "../components/Header";
 import Sidbar from "../components/Sidebar";
 import Main from "../components/chat/Main";
-import { retrieveChannels } from "../services/channel.service";
-import { auth } from "../constant/UserConst";
+import { user, auth } from "../constant/UserConst";
+import {
+  retrieveUsers,
+  retrieveChannels,
+  createChannel,
+} from "../services/api.service";
 import { useEffect, useState } from "react";
+import ChannelFormModal from "../components/modals/ChannelFormModal";
 
 const Home = () => {
+  const [users, setUsers] = useState([]);
   const [channels, setChannels] = useState([]);
+  const [channel, setChannel] = useState([]);
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const constructor = async () => {
-      try {
-        const response = await retrieveChannels(auth);
-        if (response) {
-          setChannels(response.data);
-          // console.log("channels", channels);
-        }
-        // console.log(data.data);
-      } catch (error) {
-        console.log("e", error);
+  const fetchUsers = async () => {
+    try {
+      const response = await retrieveUsers(auth);
+      if (response) {
+        setUsers(response.data);
       }
-    };
-    constructor();
+      // console.log(data.data);
+    } catch (error) {
+      console.log("e", error);
+    }
+  };
+  const fetchChannels = async () => {
+    try {
+      const response = await retrieveChannels(auth);
+      if (response) {
+        setChannels(response.data);
+      }
+      // console.log(data.data);
+    } catch (error) {
+      console.log("e", error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+    fetchChannels();
   }, []);
 
-  useEffect(() => {
-    console.log("channels", channels);
-  }, [channels]);
+  const handleToggleChannelModal = () => {
+    setOpen((prev) => !prev);
+  };
 
   return (
     <>
@@ -34,11 +53,26 @@ const Home = () => {
         <Header />
         <main className="h-full">
           <div className="flex h-full">
-            <Sidbar channels={channels} setChannels={setChannels} />
-            <Main />
+            <Sidbar
+              channels={channels}
+              setChannels={setChannels}
+              setChannel={setChannel}
+              handleToggleChannelModal={() => handleToggleChannelModal()}
+            />
+            <Main channel={channel} setChannel={setChannel} />
           </div>
         </main>
       </div>
+      <ChannelFormModal
+        auth={auth}
+        user={user}
+        users={users}
+        open={open}
+        setOpen={setOpen}
+        createChannel={createChannel}
+        fetchChannels={() => fetchChannels()}
+        onClick={() => handleToggleChannelModal()}
+      />
     </>
   );
 };
