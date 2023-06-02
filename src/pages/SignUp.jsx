@@ -19,10 +19,29 @@ const SignUp = () => {
           email,
           password,
           password_confirmation: passwordConfirmation,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
 
       console.log(response.data);
+
+      const userListResponse = await axios.get(
+        'http://206.189.91.54/api/v1/users',
+        {
+          headers: {
+            'access-token': response.headers['access-token'],
+            client: response.headers.client,
+            expiry: response.headers.expiry,
+            uid: response.headers.uid,
+          },
+        }
+      );
+
+      console.log(userListResponse.data);
 
       navigate('/');
     } catch (error) {
