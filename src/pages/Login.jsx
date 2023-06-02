@@ -20,9 +20,33 @@ const Login = () => {
         }
       );
 
-      console.log(response.data);
+      const { data, headers } = response;
+      console.log(data);
 
-      navigate('/home');
+      const accessToken = headers['access-token'];
+      const client = headers['client'];
+      const expiry = headers['expiry'];
+      const uid = headers['uid'];
+
+      const usersResponse = await axios.get('http://206.189.91.54/api/v1/users', {
+        headers: {
+          'access-token': accessToken,
+          'client': client,
+          'expiry': expiry,
+          'uid': uid,
+        },
+      });
+
+      const users = usersResponse.data;
+
+      const matchedUser = users.find((user) => user.email === email && user.password === password);
+
+      if (matchedUser) {
+        console.log('Login Successful')
+        navigate('/home')
+      } else {
+        setError('Invalid email or password');
+      }
     } catch (error) {
       setError('Invalid email or password');
       console.error(error);
