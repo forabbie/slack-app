@@ -36,7 +36,7 @@ const Sidebar = (props) => {
 
   return (
     <>
-      <section className="flex-none w-1/5 bg-primary-focus text-white text-justify">
+      <section className="flex-none w-1/5 bg-primary-focus text-white text-justify flex flex-col">
         <div className="flex justify-between px-4 py-2">
           <h1 className="text-2xl">Avion School</h1>
           <button className="btn btn-circle btn-sm bg-white hover:bg-white">
@@ -59,7 +59,7 @@ const Sidebar = (props) => {
         <div className="border-b border-white/25"></div>
         <nav
           aria-label="Main Nav"
-          className="text-white px-4 mt-6 flex flex-col space-y-1"
+          className="text-white px-4 mt-6 flex flex-col space-y-1 flex-grow"
         >
           <details
             className="group [&_summary::-webkit-details-marker]:hidden"
@@ -226,6 +226,34 @@ const Sidebar = (props) => {
             </nav>
           </details>
         </nav>
+
+        <div className="flex-grow"></div>
+        
+        <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
+          <form action="/">
+            <button
+                type="submit"
+                className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"
+            >
+              <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 opacity-75"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+              >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+
+              <span className="text-sm font-medium"> Logout </span>
+            </button>
+          </form>
+        </div>
       </section>
     </>
   );
