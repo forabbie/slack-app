@@ -77,7 +77,7 @@ const SignUp = () => {
                 </div>
                 {error && <p className="text-red-500">{error}</p>}
                 <div className="form-control mt-6">
-                  <button className="btn btn-primary">Login</button>
+                  <button className="btn btn-primary">Sign Up</button>
                 </div>
                 <div className="flex flex-row justify-center text-sm gap-1">
                   <h6>Already have an account?</h6>
