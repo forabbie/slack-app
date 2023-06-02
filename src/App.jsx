@@ -3,8 +3,6 @@ import LoginPage from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import "./App.css";
-// import { setSessionStorage, getSessionStorage } from "./services/storage.service";
-// import ProtectedRoutes from "./components/helper//ProtectedRoutes.tsx";
 
 function App() {
 
