@@ -7,20 +7,6 @@ import "./App.css";
 // import ProtectedRoutes from "./components/helper//ProtectedRoutes.tsx";
 
 function App() {
-  // const constructor = () => {
-  //   const storedUsers = getSessionStorage("users");
-  //   if (!storedUsers) {
-  //     setSessionStorage("users", users, false);
-  //   }
-  // };
-  // constructor();
-
-  // const setLoggedInUser = () => {
-  //   // static
-  //   const loggedInUser = { isLoggedin: true, email: "lexi@email.com" } || {};
-  //   setSessionStorage("loggedInUser", loggedInUser, true);
-  // };
-  // setLoggedInUser();
 
   return (
     <BrowserRouter>
