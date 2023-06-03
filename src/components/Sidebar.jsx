@@ -3,7 +3,7 @@ import {
   setSessionStorage,
   getSessionStorage,
 } from "../services/storage.service";
-// import { auth } from "../constant/UserConst";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { retrieveChannel } from "../services/api.service";
 
@@ -13,7 +13,7 @@ const Sidebar = (props) => {
     const store = getSessionStorage("CH-Index", false);
     return parseInt(store) || 0;
   });
-
+  const navigate = useNavigate();
   const fetchChannel = async (id) => {
     try {
       const response = await retrieveChannel(auth.headers, id);
@@ -28,6 +28,11 @@ const Sidebar = (props) => {
     fetchChannel(parseInt(getSessionStorage("CH-Index", false)));
   }, []);
 
+  const onLogout = () => {
+    // console.log("log me out");
+    sessionStorage.clear();
+    navigate("/login");
+  };
   const onSwitchTab = (params) => {
     setChannelIndex(params.id);
     setSessionStorage("CH-Index", params.id, false);
@@ -230,30 +235,29 @@ const Sidebar = (props) => {
 
         <div className="flex-grow"></div>
 
-        <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
-          <form action="/">
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"
+        <div className="sticky inset-x-0 bottom-0 border-t border-white/25">
+          <button
+            type="button"
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"
+            onClick={onLogout}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 opacity-75"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 opacity-75"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
 
-              <span className="text-sm font-medium"> Logout </span>
-            </button>
-          </form>
+            <span className="text-sm font-medium"> Logout </span>
+          </button>
         </div>
       </section>
     </>

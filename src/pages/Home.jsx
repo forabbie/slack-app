@@ -17,7 +17,7 @@ const Home = () => {
   const [channel, setChannel] = useState([]);
   const [open, setOpen] = useState(false);
   const auth = getSessionStorage("loggedInUserAuth");
-  console.log("auth", auth);
+  // console.log("auth", auth);
   const fetchUsers = async () => {
     try {
       const response = await retrieveUsers(auth.headers);

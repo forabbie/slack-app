@@ -17,20 +17,22 @@ const Login = () => {
         email,
         password,
       });
-      console.log(response.headers);
-      const authData = {
-        data: {
-          userId: response.data.id,
-        },
-        headers: {
-          "access-token": response.headers["access-token"],
-          client: response.headers.client,
-          expiry: response.headers.expiry,
-          uid: response.headers.uid,
-        },
-      };
-      setSessionStorage("loggedInUserAuth", authData);
-      navigate("/home");
+      if (response) {
+        console.log(response.headers);
+        const authData = {
+          data: {
+            userId: response.data.id,
+          },
+          headers: {
+            "access-token": response.headers["access-token"],
+            client: response.headers.client,
+            expiry: response.headers.expiry,
+            uid: response.headers.uid,
+          },
+        };
+        setSessionStorage("loggedInUserAuth", authData);
+        navigate("/home");
+      }
     } catch (error) {
       setError("Invalid email or password");
       console.error(error);
