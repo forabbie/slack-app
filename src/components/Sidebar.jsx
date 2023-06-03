@@ -3,20 +3,20 @@ import {
   setSessionStorage,
   getSessionStorage,
 } from "../services/storage.service";
-import { auth } from "../constant/UserConst";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { retrieveChannel } from "../services/api.service";
 
 const Sidebar = (props) => {
-  const { setChannel, channels, handleToggleChannelModal } = props;
+  const { auth, setChannel, channels, handleToggleChannelModal } = props;
   const [channelIndex, setChannelIndex] = useState(() => {
     const store = getSessionStorage("CH-Index", false);
     return parseInt(store) || 0;
   });
-
+  const navigate = useNavigate();
   const fetchChannel = async (id) => {
     try {
-      const response = await retrieveChannel(auth, id);
+      const response = await retrieveChannel(auth.headers, id);
       if (response) {
         setChannel(response.data);
       }
@@ -28,6 +28,11 @@ const Sidebar = (props) => {
     fetchChannel(parseInt(getSessionStorage("CH-Index", false)));
   }, []);
 
+  const onLogout = () => {
+    // console.log("log me out");
+    sessionStorage.clear();
+    navigate("/login");
+  };
   const onSwitchTab = (params) => {
     setChannelIndex(params.id);
     setSessionStorage("CH-Index", params.id, false);
@@ -103,34 +108,35 @@ const Sidebar = (props) => {
 
             <nav aria-label="Channels Nav" className="mt-2 flex flex-col px-4">
               <ul className="menu">
-                {Object.keys(channels).map((key) => (
-                  <li key={channels[key].id}>
-                    <a
-                      className={[
-                        channels[key].id === channelIndex
-                          ? "text-white bg-gray-400/[0.4]"
-                          : "",
-                        "flex items-center gap-2 rounded-lg px-4 py-2 my-0.5 hover:bg-gray-400/[0.4] active:text-white",
-                      ].join(" ")}
-                      onClick={() => onSwitchTab(channels[key])}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        className="w-5 h-5"
+                {channels &&
+                  Object.keys(channels).map((key) => (
+                    <li key={channels[key].id}>
+                      <a
+                        className={[
+                          channels[key].id === channelIndex
+                            ? "text-white bg-gray-400/[0.4]"
+                            : "",
+                          "flex items-center gap-2 rounded-lg px-4 py-2 my-0.5 hover:bg-gray-400/[0.4] active:text-white",
+                        ].join(" ")}
+                        onClick={() => onSwitchTab(channels[key])}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
-                        />
-                      </svg>
-                      {channels[key].name}
-                    </a>
-                  </li>
-                ))}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
+                          />
+                        </svg>
+                        {channels[key].name}
+                      </a>
+                    </li>
+                  ))}
                 <li>
                   <a
                     className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4] active:text-white"
@@ -228,31 +234,30 @@ const Sidebar = (props) => {
         </nav>
 
         <div className="flex-grow"></div>
-        
-        <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
-          <form action="/">
-            <button
-                type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"
-            >
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 opacity-75"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-              >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
 
-              <span className="text-sm font-medium"> Logout </span>
-            </button>
-          </form>
+        <div className="sticky inset-x-0 bottom-0 border-t border-white/25">
+          <button
+            type="button"
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"
+            onClick={onLogout}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 opacity-75"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+
+            <span className="text-sm font-medium"> Logout </span>
+          </button>
         </div>
       </section>
     </>

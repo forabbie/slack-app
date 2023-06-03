@@ -14,10 +14,10 @@ export const setSessionStorage = (key = "", str = {}, isEncrypt = true) => {
 };
 
 export const getSessionStorage = (key = "", isEncrypt = true) => {
-  const code = isEncrypt
-    ? b64_to_utf8(sessionStorage.getItem(key) || "{}")
-    : sessionStorage.getItem(key);
   if (sessionStorage.getItem(key)) {
+    const code = isEncrypt
+      ? b64_to_utf8(sessionStorage.getItem(key) || "{}")
+      : sessionStorage.getItem(key);
     const decode = code || "";
     return JSON.parse(decode);
   }
