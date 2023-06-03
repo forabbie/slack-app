@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { signUpUser, retrieveUserList } from '../services/api.service.jsx';
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -13,17 +13,35 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const { signUpResponse, accessToken, client, expiry, uid } = await signUpUser({
+      const response = await axios.post(
+        'http://206.189.91.54/api/v1/auth/',
+        {
           email,
           password,
           password_confirmation: passwordConfirmation,
-        })
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-      console.log(signUpResponse);
+      console.log(response.data);
 
-      const userListResponse = await retrieveUserList({accessToken, client, expiry, uid })
-      
-      console.log(userListResponse);
+      const userListResponse = await axios.get(
+        'http://206.189.91.54/api/v1/users',
+        {
+          headers: {
+            'access-token': response.headers['access-token'],
+            client: response.headers.client,
+            expiry: response.headers.expiry,
+            uid: response.headers.uid,
+          },
+        }
+      );
+
+      console.log(userListResponse.data);
 
       navigate('/');
     } catch (error) {
@@ -31,7 +49,7 @@ const SignUp = () => {
       console.error(error);
     }
   };
-
+  
   return (
     <>
       <div className="hero min-h-screen flex flex-col justify-center items-center h-screen">
