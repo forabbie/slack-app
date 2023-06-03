@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { retrieveChannel } from "../services/api.service";
 
 const Sidebar = (props) => {
-  const { auth, setChannel, channels, handleToggleChannelModal, toggleDirectMessage } = props;
+  const { auth, setChannel, channels, handleToggleChannelModal, toggleDirectMessage, submittedNames } = props;
   const [channelIndex, setChannelIndex] = useState(() => {
     const store = getSessionStorage("CH-Index", false);
     return parseInt(store) || 0;
@@ -217,17 +217,21 @@ const Sidebar = (props) => {
                     d="M12 6v12m6-6H6"
                   />
                 </svg>
-                <span className="text-sm font-medium">
-                  Open a Direct Message{" "}
+                <span className="text-sm font-medium text-start">
+                  Open a Direct Message
                 </span>
               </a>
               <div className="directMessageList">
-                <a
+                {submittedNames.length > 0 &&
+                submittedNames.map((name, index) => (
+                  <a
+                  key={index}
                   href="#"
                   className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]"
-                >
-                  <span className="text-sm font-medium">Ianna</span>
-                </a>
+                  >
+                    <span className="text-sm font-medium">{name}</span>
+                  </a>
+                ))}
               </div>
             </nav>
           </details>

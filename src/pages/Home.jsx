@@ -17,6 +17,7 @@ const Home = () => {
   const [channel, setChannel] = useState([]);
   const [open, setOpen] = useState(false);
   const [isDirectMessageVisible, setIsDirectMessageVisible] = useState(false);
+  const [submittedNames, setSubmittedNames] = useState('')
   const auth = getSessionStorage("loggedInUserAuth");
   // console.log("auth", auth);
   const fetchUsers = async () => {
@@ -54,6 +55,15 @@ const Home = () => {
     setIsDirectMessageVisible(!isDirectMessageVisible);
   };
 
+  const hideForm = () => {
+    setIsDirectMessageVisible(false);
+  };
+
+
+  const handleSubmitName = (name) => {
+    setSubmittedNames([...submittedNames, name]);
+  };
+
   return (
     <>
       <div className="h-screen flex flex-col">
@@ -67,11 +77,14 @@ const Home = () => {
               setChannel={setChannel}
               handleToggleChannelModal={() => handleToggleChannelModal()}
               toggleDirectMessage={toggleDirectMessage}
+              submittedNames={submittedNames}
             />
             <Main 
               channel={channel} 
               setChannel={setChannel}
               isDirectMessageVisible={isDirectMessageVisible}
+              onHideForm = {hideForm}
+              handleSubmitName = {handleSubmitName}
             />
           </div>
         </main>
