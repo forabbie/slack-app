@@ -1,13 +1,14 @@
 import Header from "../components/Header";
 import Sidbar from "../components/Sidebar";
 import Main from "../components/chat/Main";
-import { user, auth } from "../constant/UserConst";
+// import { user, auth } from "../constant/UserConst";
 import {
   retrieveUsers,
   retrieveChannels,
   createChannel,
 } from "../services/api.service";
 import { useEffect, useState } from "react";
+import { getSessionStorage } from "../services/storage.service";
 import ChannelFormModal from "../components/modals/ChannelFormModal";
 
 const Home = () => {
@@ -15,10 +16,11 @@ const Home = () => {
   const [channels, setChannels] = useState([]);
   const [channel, setChannel] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const auth = getSessionStorage("loggedInUserAuth");
+  console.log("auth", auth);
   const fetchUsers = async () => {
     try {
-      const response = await retrieveUsers(auth);
+      const response = await retrieveUsers(auth.headers);
       if (response) {
         setUsers(response.data);
       }
@@ -29,7 +31,7 @@ const Home = () => {
   };
   const fetchChannels = async () => {
     try {
-      const response = await retrieveChannels(auth);
+      const response = await retrieveChannels(auth.headers);
       if (response) {
         setChannels(response.data);
       }
@@ -65,7 +67,6 @@ const Home = () => {
       </div>
       <ChannelFormModal
         auth={auth}
-        user={user}
         users={users}
         open={open}
         setOpen={setOpen}

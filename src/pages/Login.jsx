@@ -26,7 +26,7 @@ const Login = () => {
           "access-token": response.headers["access-token"],
           client: response.headers.client,
           expiry: response.headers.expiry,
-          uid: response.headers.uuid,
+          uid: response.headers.uid,
         },
       };
       setSessionStorage("loggedInUserAuth", authData);
