@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { retrieveChannel } from "../services/api.service";
 
 const Sidebar = (props) => {
-  const { auth, setChannel, channels, handleToggleChannelModal } = props;
+  const { auth, setChannel, channels, handleToggleChannelModal, toggleDirectMessage } = props;
   const [channelIndex, setChannelIndex] = useState(() => {
     const store = getSessionStorage("CH-Index", false);
     return parseInt(store) || 0;
@@ -201,7 +201,7 @@ const Sidebar = (props) => {
             <nav aria-label="Account Nav" className="mt-2 flex flex-col px-4">
               <a
                 href="#"
-                className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]"
+                className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]" onClick={toggleDirectMessage}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
