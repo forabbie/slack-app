@@ -28,7 +28,7 @@ const ChannelFormModal = (props) => {
     e.preventDefault();
     try {
       const response = await createChannel({
-        data: auth,
+        data: auth.headers,
         name: channelName,
         user_ids: [],
       });

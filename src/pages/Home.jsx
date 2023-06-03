@@ -56,6 +56,7 @@ const Home = () => {
         <main className="h-full">
           <div className="flex h-full">
             <Sidbar
+              auth={auth}
               channels={channels}
               setChannels={setChannels}
               setChannel={setChannel}

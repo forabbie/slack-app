@@ -3,12 +3,12 @@ import {
   setSessionStorage,
   getSessionStorage,
 } from "../services/storage.service";
-import { auth } from "../constant/UserConst";
+// import { auth } from "../constant/UserConst";
 import { useEffect, useState } from "react";
 import { retrieveChannel } from "../services/api.service";
 
 const Sidebar = (props) => {
-  const { setChannel, channels, handleToggleChannelModal } = props;
+  const { auth, setChannel, channels, handleToggleChannelModal } = props;
   const [channelIndex, setChannelIndex] = useState(() => {
     const store = getSessionStorage("CH-Index", false);
     return parseInt(store) || 0;
@@ -16,7 +16,7 @@ const Sidebar = (props) => {
 
   const fetchChannel = async (id) => {
     try {
-      const response = await retrieveChannel(auth, id);
+      const response = await retrieveChannel(auth.headers, id);
       if (response) {
         setChannel(response.data);
       }
