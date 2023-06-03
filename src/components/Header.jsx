@@ -11,6 +11,7 @@ const Header = () => {
     "btn btn-xs btn-block bg-slate-50/50 border-0 hover:bg-slate-50/50 no-animation text-white font-light";
   const onLogout = () => {
     console.log("log me out");
+    sessionStorage.clear();
     navigate("/login");
   };
   const dropDownList = [

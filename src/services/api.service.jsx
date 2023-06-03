@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 import axios from "axios";
 
+export const signIn = async (data) => {
+  return await axios.post("http://206.189.91.54/api/v1/auth/sign_in", data);
+};
+
 export const retrieveUsers = async (data) => {
   const res = await axios.get("http://206.189.91.54/api/v1/users", {
     headers: data,

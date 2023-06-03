@@ -1,17 +1,19 @@
-import { BrowserRouter, Routes, Route, Navigate  } from "react-router-dom";
-import LoginPage from "./pages/Login.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import LoginPage from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import "./App.css";
+import ProtectedRoutes from "./helper/ProtectedRoutes.jsx";
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<ProtectedRoutes />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<ProtectedRoutes />}>
+          <Route path="/Home" element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
