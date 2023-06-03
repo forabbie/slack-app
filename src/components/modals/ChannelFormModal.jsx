@@ -32,9 +32,12 @@ const ChannelFormModal = (props) => {
         name: channelName,
         user_ids: [],
       });
-      if (response) {
+      if (!response.data.errors) {
         onClick();
         fetchChannels();
+      } else {
+        setHasError(true);
+        setErrorMessage(response.data.errors);
       }
       // console.log(data.data);
     } catch (error) {
