@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
+import { loginUser } from '../services/api.service.jsx'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,13 +12,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://206.189.91.54/api/v1/auth/sign_in',
-        {
+      const response = await loginUser({
           email,
           password,
-        }
-      );
+        })
       console.log(response.data);
 
       navigate('/home');

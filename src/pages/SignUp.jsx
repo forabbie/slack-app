@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
+import { signUpUser, retrieveUserList } from '../services/api.service.jsx';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -13,35 +13,17 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://206.189.91.54/api/v1/auth/',
-        {
+      const { signUpResponse, accessToken, client, expiry, uid } = await signUpUser({
           email,
           password,
           password_confirmation: passwordConfirmation,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+        })
 
-      console.log(response.data);
+      console.log(signUpResponse);
 
-      const userListResponse = await axios.get(
-        'http://206.189.91.54/api/v1/users',
-        {
-          headers: {
-            'access-token': response.headers['access-token'],
-            client: response.headers.client,
-            expiry: response.headers.expiry,
-            uid: response.headers.uid,
-          },
-        }
-      );
-
-      console.log(userListResponse.data);
+      const userListResponse = await retrieveUserList({accessToken, client, expiry, uid })
+      
+      console.log(userListResponse);
 
       navigate('/');
     } catch (error) {
