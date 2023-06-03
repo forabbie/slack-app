@@ -16,6 +16,7 @@ const Home = () => {
   const [channels, setChannels] = useState([]);
   const [channel, setChannel] = useState([]);
   const [open, setOpen] = useState(false);
+  const [isDirectMessageVisible, setIsDirectMessageVisible] = useState(false);
   const auth = getSessionStorage("loggedInUserAuth");
   // console.log("auth", auth);
   const fetchUsers = async () => {
@@ -49,6 +50,10 @@ const Home = () => {
     setOpen((prev) => !prev);
   };
 
+  const toggleDirectMessage = () => {
+    setIsDirectMessageVisible(!isDirectMessageVisible);
+  };
+
   return (
     <>
       <div className="h-screen flex flex-col">
@@ -61,8 +66,13 @@ const Home = () => {
               setChannels={setChannels}
               setChannel={setChannel}
               handleToggleChannelModal={() => handleToggleChannelModal()}
+              toggleDirectMessage={toggleDirectMessage}
             />
-            <Main channel={channel} setChannel={setChannel} />
+            <Main 
+              channel={channel} 
+              setChannel={setChannel}
+              isDirectMessageVisible={isDirectMessageVisible}
+            />
           </div>
         </main>
       </div>
