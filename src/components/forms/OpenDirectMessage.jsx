@@ -5,6 +5,7 @@ const OpenDirectMessage = (props) => {
 
     const [name, setName] = useState('');
     const [showUserList, setShowUserList] = useState(false);
+    const [filteredUsersList, setFilteredUserList] = useState(userList);
 
     useEffect(() => {
         fetchUsers()
@@ -33,9 +34,15 @@ const OpenDirectMessage = (props) => {
     };
 
     const handleNameChange = (e) => {
-        const newName = e.target.value;
+        const newName = e.target.value.toLowerCase();
         setName(newName);
-    }
+
+        const filteredUsers = userList.filter((user) => {
+            const userEmail = user.email.toLowerCase();
+            return userEmail.startsWith(newName);
+        });
+        setFilteredUserList(filteredUsers);
+    };
 
     return(
         <form onSubmit={handleSubmitNameForm}>
@@ -62,7 +69,7 @@ const OpenDirectMessage = (props) => {
                 <div>
                     <h3>List of Existing Users:</h3>
                     <ul>
-                        {userList.map((user) => (
+                        {filteredUsersList.map((user) => (
                             <li 
                                 key={user.id}
                                 onClick={() => handleNameSelection(user.email)}
