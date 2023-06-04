@@ -1,9 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const OpenDirectMessage = (props) => {
-    const {isDirectMessageVisible, handleSubmitName, onHideForm} = props
+    const {isDirectMessageVisible, handleSubmitName, onHideForm, fetchUsers, userList } = props
 
     const [name, setName] = useState('');
+    const [showUserList, setShowUserList] = useState(false);
+
+    useEffect(() => {
+        fetchUsers()
+    }, [fetchUsers]);
+
+    const handleSearchClick = () => {
+        setShowUserList(true);
+    };
+
+    const handleNameSelection = (selectedName) => {
+        setName(selectedName);
+        setShowUserList(false);
+    };
 
     const handleSubmitNameForm = (e) => {
         e.preventDefault();
@@ -11,8 +25,8 @@ const OpenDirectMessage = (props) => {
             setName('');
             onHideForm();
             handleSubmitName(name);
-            }
-    }
+        }
+    };
 
     const handleNameChange = (e) => {
         const newName = e.target.value;
@@ -35,9 +49,26 @@ const OpenDirectMessage = (props) => {
                         name="search"
                         value={name}
                         onChange={handleNameChange}
+                        onClick={handleSearchClick}
                         />
                 </div>
             </label>
+            
+            {showUserList && (
+                <div>
+                    <h3>List of Existing Users:</h3>
+                    <ul>
+                        {userList.map((user) => (
+                            <li 
+                                key={user.id}
+                                onClick={() => handleNameSelection(user.email)}
+                            >
+                                {user.email}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </form>
     )
 }

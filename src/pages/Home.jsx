@@ -85,6 +85,8 @@ const Home = () => {
               isDirectMessageVisible={isDirectMessageVisible}
               onHideForm = {hideForm}
               handleSubmitName = {handleSubmitName}
+              fetchUsers={fetchUsers}
+              userList={users}
             />
           </div>
         </main>

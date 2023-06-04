@@ -4,7 +4,7 @@ import ChatHeader from "./ChatHeader";
 // import ChatInput from "./ChatInput";
 
 const Main = (props) => {
-  const { channel, isDirectMessageVisible, handleSubmitName, onHideForm  } = props;
+  const { channel, isDirectMessageVisible, handleSubmitName, onHideForm, fetchUsers, userList } = props;
   
   return (
     <>
@@ -14,7 +14,9 @@ const Main = (props) => {
           isDirectMessageVisible={isDirectMessageVisible} 
           handleSubmitName={handleSubmitName} 
           onHideForm={onHideForm}
-          nameHeader={channel}/>
+          nameHeader={channel}
+          fetchUsers={fetchUsers}
+          userList={userList}/>
         {/* <div className="text-center">inner</div> */}
         {/* <ChatInput /> */}
       </section>
