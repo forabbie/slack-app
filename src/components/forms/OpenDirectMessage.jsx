@@ -21,11 +21,15 @@ const OpenDirectMessage = (props) => {
 
     const handleSubmitNameForm = (e) => {
         e.preventDefault();
-        if (name.trim() !== '') {
-            setName('');
-            onHideForm();
-            handleSubmitName(name);
+        const userExists = userList.some((user) => user.email === name);
+        if(!userExists) {
+            return
         }
+
+        setName('');
+        onHideForm();
+        handleSubmitName(name);
+        setShowUserList(false)
     };
 
     const handleNameChange = (e) => {
