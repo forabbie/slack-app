@@ -77,6 +77,7 @@ const Home = () => {
         auth={auth}
         users={users}
         open={open}
+        setUsers={setUsers}
         setOpen={setOpen}
         createChannel={createChannel}
         fetchChannels={() => fetchChannels()}
