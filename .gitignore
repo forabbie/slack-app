@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 *.env
-_test_
+_tests_
