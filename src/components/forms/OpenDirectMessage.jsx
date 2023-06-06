@@ -7,13 +7,40 @@ const OpenDirectMessage = (props) => {
     const [showUserList, setShowUserList] = useState(false);
     const [filteredUsersList, setFilteredUserList] = useState(userList);
     const inputRef = useRef(null);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         fetchUsers()
     }, [fetchUsers]);
 
-    const handleSearchClick = () => {
-        setShowUserList(true);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if(
+                inputRef.current &&
+                !inputRef.current.contains(event.target) &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setShowUserList(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+
+    const handleNameChange = (e) => {
+        const newName = e.target.value.toLowerCase();
+        setName(newName);
+
+        const filteredUsers = userList.filter((user) => {
+            const userEmail = user.email.toLowerCase();
+            return userEmail.startsWith(newName);
+        });
+        setFilteredUserList(filteredUsers);
+        setShowUserList(newName.length > 0);
     };
 
     const handleNameSelection = (selectedName) => {
@@ -32,17 +59,6 @@ const OpenDirectMessage = (props) => {
         onHideForm();
         handleSubmitName(name);
         setShowUserList(false)
-    };
-
-    const handleNameChange = (e) => {
-        const newName = e.target.value.toLowerCase();
-        setName(newName);
-
-        const filteredUsers = userList.filter((user) => {
-            const userEmail = user.email.toLowerCase();
-            return userEmail.startsWith(newName);
-        });
-        setFilteredUserList(filteredUsers);
     };
 
     const handleInputBlur = () => {
@@ -68,11 +84,10 @@ const OpenDirectMessage = (props) => {
                         name="search"
                         value={name}
                         onChange={handleNameChange}
-                        onClick={handleSearchClick}
                         onBlur={handleInputBlur}
                         />
                     {showUserList && (
-                    <div className="absolute mt-1 w-full pr-14">
+                    <div ref={dropdownRef} className="absolute mt-1 w-full pr-14">
                         <div className="max-h-48 overflow-y-auto bg-white text-black rounded-md shadow-2xl">
                             <ul className='my-4'>
                                 {filteredUsersList.map((user) => (
