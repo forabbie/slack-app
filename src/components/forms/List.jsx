@@ -5,9 +5,6 @@ const List = (props) => {
   return (
     <>
       <ul tabIndex={0} className={localClass}>
-        {/* <li>
-          <a className={aClassName}>Profile</a>
-        </li> */}
         {list.map((item, i) => (
           <li key={i}>
             <a

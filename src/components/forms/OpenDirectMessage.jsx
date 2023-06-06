@@ -109,4 +109,4 @@ const OpenDirectMessage = (props) => {
     )
 }
 
-export default OpenDirectMessage
+export default OpenDirectMessage;

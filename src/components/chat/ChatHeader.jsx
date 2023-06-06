@@ -5,7 +5,6 @@ const ChatHeader = (props) => {
     channel?.channel_members?.length - 3 >= 1
       ? channel?.channel_members?.length - 3
       : 0;
-  // console.log("channel", channel);
   return (
     <div className="w-full flex justify-between border-b py-2 px-5">
       <h1 className="text-2xl text-start">{channel?.name}</h1>
