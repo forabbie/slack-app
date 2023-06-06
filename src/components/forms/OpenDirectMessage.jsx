@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const OpenDirectMessage = (props) => {
     const {isDirectMessageVisible, handleSubmitName, onHideForm, fetchUsers, userList } = props
@@ -6,6 +6,7 @@ const OpenDirectMessage = (props) => {
     const [name, setName] = useState('');
     const [showUserList, setShowUserList] = useState(false);
     const [filteredUsersList, setFilteredUserList] = useState(userList);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         fetchUsers()
@@ -44,6 +45,12 @@ const OpenDirectMessage = (props) => {
         setFilteredUserList(filteredUsers);
     };
 
+    const handleInputBlur = () => {
+        setTimeout(() => {
+            setShowUserList(false);
+        }, 200);
+    }
+
     return(
         <form onSubmit={handleSubmitNameForm}>
             <label className={`relative block border-b border-slate-300 shadow-sm 
@@ -54,6 +61,7 @@ const OpenDirectMessage = (props) => {
                         <p className='text-slate-400 font-sans sm:text-sm'>To:</p>
                     </span>
                     <input 
+                        ref={inputRef}
                         className="placeholder:text-slate-400 font-sans block bg-white w-full focus:outline-none sm:text-sm" 
                         placeholder="@somebody or somebody@example.com" 
                         type="text" 
@@ -61,25 +69,27 @@ const OpenDirectMessage = (props) => {
                         value={name}
                         onChange={handleNameChange}
                         onClick={handleSearchClick}
+                        onBlur={handleInputBlur}
                         />
+                    {showUserList && (
+                    <div className="absolute mt-1 w-full pr-14">
+                        <div className="max-h-48 overflow-y-auto bg-white text-black rounded-md shadow-2xl">
+                            <ul className='my-4'>
+                                {filteredUsersList.map((user) => (
+                                    <li 
+                                        key={user.id}
+                                        className="cursor-pointer px-4 py-2 hover:bg-blue-500 text-start"
+                                        onClick={() => handleNameSelection(user.email)}
+                                    >
+                                        {user.email}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    )}
                 </div>
             </label>
-            
-            {showUserList && (
-                <div>
-                    <h3>List of Existing Users:</h3>
-                    <ul>
-                        {filteredUsersList.map((user) => (
-                            <li 
-                                key={user.id}
-                                onClick={() => handleNameSelection(user.email)}
-                            >
-                                {user.email}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
         </form>
     )
 }
