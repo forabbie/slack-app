@@ -1,13 +1,16 @@
 import Modal from "./Modal";
 import Input from "../forms/Input";
 import Button from "../forms/Button";
+import AutoSuggestInput from "../forms/AutoSuggestInput";
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
 const ChannelFormModal = (props) => {
-  const { open, auth, users, createChannel, fetchChannels, onClick } = props;
+  const { open, auth, users, setUsers, createChannel, fetchChannels, onClick } =
+    props;
 
   const [channelName, setChannelName] = useState("");
+  const [members, setMembers] = useState([]);
   const [serchUser, setSerchUser] = useState("");
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -83,8 +86,56 @@ const ChannelFormModal = (props) => {
               htmlFor="withdraw-input"
               className="text-md text-start normal-case mb-2"
             >
-              Add user
+              Search user(s)
             </label>
+            <AutoSuggestInput
+              users={users}
+              setUsers={setUsers}
+              members={members}
+              setMembers={setMembers}
+            />
+            <div className="text-start mt-3">
+              Selected Members:
+              {members.length > 0 && (
+                <div className="menu shadow border bg-base-100 mt-2 rounded-lg dropdown-content overflow-y-scroll h-48">
+                  <ul className="">
+                    {members.length > 0 &&
+                      members.map((user, index) => (
+                        <li key={index} className="border-b">
+                          <div className="flex gap-x-4">
+                            <div className="avatar static placeholder">
+                              <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
+                                <span className="text-sm">K</span>
+                              </div>
+                            </div>
+                            <div className="min-w-0 flex-auto">
+                              <p className="text-sm font-semibold leading-6 text-gray-900">
+                                {user.email}
+                              </p>
+                            </div>
+                            <div className="hidden sm:flex sm:flex-col sm:items-end">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
           <div className="modal-action">
             <Button
