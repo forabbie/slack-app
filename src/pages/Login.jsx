@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setSessionStorage } from "../services/storage.service";
 import { signIn } from "../services/api.service";
-// import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();

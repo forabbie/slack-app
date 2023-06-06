@@ -18,14 +18,12 @@ const Home = () => {
   const [open, setOpen] = useState(false);
   const [isDirectMessageVisible, setIsDirectMessageVisible] = useState(false);
   const auth = getSessionStorage("loggedInUserAuth");
-  // console.log("auth", auth);
   const fetchUsers = async () => {
     try {
       const response = await retrieveUsers(auth.headers);
       if (response) {
         setUsers(response.data);
       }
-      // console.log(data.data);
     } catch (error) {
       console.log("e", error);
     }
@@ -36,7 +34,6 @@ const Home = () => {
       if (response) {
         setChannels(response.data);
       }
-      // console.log(data.data);
     } catch (error) {
       console.log("e", error);
     }
@@ -68,8 +65,8 @@ const Home = () => {
               handleToggleChannelModal={() => handleToggleChannelModal()}
               toggleDirectMessage={toggleDirectMessage}
             />
-            <Main 
-              channel={channel} 
+            <Main
+              channel={channel}
               setChannel={setChannel}
               isDirectMessageVisible={isDirectMessageVisible}
             />

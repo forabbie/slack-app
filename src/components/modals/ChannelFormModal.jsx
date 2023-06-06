@@ -1,7 +1,6 @@
 import Modal from "./Modal";
 import Input from "../forms/Input";
 import Button from "../forms/Button";
-// import AutoSuggestInput from "../forms/AutoSuggestInput";
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
@@ -9,7 +8,6 @@ const ChannelFormModal = (props) => {
   const { open, auth, users, createChannel, fetchChannels, onClick } = props;
 
   const [channelName, setChannelName] = useState("");
-  // const [members, setMembers] = useState("");
   const [serchUser, setSerchUser] = useState("");
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,11 +37,9 @@ const ChannelFormModal = (props) => {
         setHasError(true);
         setErrorMessage(response.data.errors);
       }
-      // console.log(data.data);
     } catch (error) {
       console.log("e", error);
     }
-    // console.log("log me");
   };
 
   const onChannelNameChange = (value) => {
@@ -54,12 +50,7 @@ const ChannelFormModal = (props) => {
     setSerchUser(value);
   };
 
-  // const onMemberChange = (value) => {
-  //   setMember(value);
-  // };
-
   const onCancel = () => {
-    // console.log("onCancel");
     setHasError(false);
     onClick();
   };
@@ -88,40 +79,12 @@ const ChannelFormModal = (props) => {
           </div>
 
           <div className="form-control w-full">
-            {/* <label
-              htmlFor="withdraw-input"
-              className="text-md text-start normal-case mb-3"
-            >
-              Add members:
-            </label>
-            <select
-              className="select select-bordered w-full"
-              value={member}
-              onChange={onMemberChange}
-              placeholder="ex: 01984327"
-            >
-              <option value={""}>Select user</option>
-              {users.map((person) => (
-                <option key={person.id} value={person.id}>
-                  {person.email}
-                </option>
-              ))}
-            </select> */}
             <label
               htmlFor="withdraw-input"
               className="text-md text-start normal-case mb-2"
             >
               Add user
             </label>
-            {/* <AutoSuggestInput users={users} /> */}
-            {/* <input
-              type="text"
-              value={serchUser}
-              name="searchuser"
-              id="serch-user"
-              className="input input-bordered w-full"
-              onChange={(e) => onSearchuUser(e.target.value)}
-            /> */}
           </div>
           <div className="modal-action">
             <Button
