@@ -221,18 +221,16 @@ const Sidebar = (props) => {
                   Open a Direct Message
                 </span>
               </a>
-              <div className="directMessageList">
-                {submittedNames.length > 0 &&
-                submittedNames.map((name, index) => (
-                  <a
+              <ul className="menu">
+                {submittedNames.map((name, index) => (
+                  <li
                   key={index}
-                  href="#"
                   className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]"
                   >
-                    <span className="text-sm font-medium">{name}</span>
-                  </a>
+                    <a className="text-sm font-medium">{name}</a>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </nav>
           </details>
         </nav>

@@ -17,7 +17,7 @@ const Home = () => {
   const [channel, setChannel] = useState([]);
   const [open, setOpen] = useState(false);
   const [isDirectMessageVisible, setIsDirectMessageVisible] = useState(false);
-  const [submittedNames, setSubmittedNames] = useState('')
+  const [submittedNames, setSubmittedNames] = useState([])
   const auth = getSessionStorage("loggedInUserAuth");
   const fetchUsers = async () => {
     try {
@@ -58,8 +58,17 @@ const Home = () => {
 
 
   const handleSubmitName = (name) => {
-    setSubmittedNames([...submittedNames, name]);
+    const updatedNames = [...submittedNames, name];
+    setSubmittedNames(updatedNames);
+    sessionStorage.setItem('submittedNames', JSON.stringify(updatedNames))
   };
+
+  useEffect(() => {
+    const savedNames = sessionStorage.getItem('submittedNames');
+    if (savedNames) {
+      setSubmittedNames(JSON.parse(savedNames));
+    }
+  }, []);
 
   return (
     <>
