@@ -199,6 +199,15 @@ const Sidebar = (props) => {
             </summary>
 
             <nav aria-label="Account Nav" className="mt-2 flex flex-col px-4">
+              <ul className="menu">
+                {submittedNames.map((name, index) => (
+                  <li
+                  key={index}
+                  >
+                    <a className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]">{name}</a>
+                  </li>
+                ))}
+              </ul>
               <a
                 href="#"
                 className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]" onClick={toggleDirectMessage}
@@ -221,16 +230,6 @@ const Sidebar = (props) => {
                   Open a Direct Message
                 </span>
               </a>
-              <ul className="menu">
-                {submittedNames.map((name, index) => (
-                  <li
-                  key={index}
-                  className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]"
-                  >
-                    <a className="text-sm font-medium">{name}</a>
-                  </li>
-                ))}
-              </ul>
             </nav>
           </details>
         </nav>

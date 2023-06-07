@@ -66,7 +66,14 @@ const Home = () => {
   useEffect(() => {
     const savedNames = sessionStorage.getItem('submittedNames');
     if (savedNames) {
-      setSubmittedNames(JSON.parse(savedNames));
+      try {
+        const parsedNames = JSON.parse(savedNames)
+        // console.log('parsedNames:', parsedNames)
+        setSubmittedNames(parsedNames)
+      } 
+      catch (error) {
+        console.error('Error parsing JSON:', error)
+      }
     }
   }, []);
 
