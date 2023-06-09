@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 const OpenDirectMessage = (props) => {
-    const {isDirectMessageVisible, handleSubmitName, onHideForm, fetchUsers, userList } = props
+    const {isDirectMessageVisible, handleSubmitName, submittedNames, onHideForm, fetchUsers, userList } = props
 
     const [name, setName] = useState('');
     const [showUserList, setShowUserList] = useState(false);
@@ -51,7 +51,8 @@ const OpenDirectMessage = (props) => {
     const handleSubmitNameForm = (e) => {
         e.preventDefault();
         const userExists = userList.some((user) => user.email === name);
-        if(!userExists) {
+        const isDuplicateName = submittedNames.includes(name);
+        if(!userExists || isDuplicateName) {
             return
         }
 

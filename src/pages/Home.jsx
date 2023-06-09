@@ -100,6 +100,7 @@ const Home = () => {
               handleSubmitName = {handleSubmitName}
               fetchUsers={fetchUsers}
               userList={users}
+              submittedNames={submittedNames}
             />
           </div>
         </main>
