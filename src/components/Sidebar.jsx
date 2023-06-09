@@ -38,7 +38,8 @@ const Sidebar = (props) => {
         <div className="border-b border-white/25"></div>
         <nav
           aria-label="Main Nav"
-          className="text-white px-4 mt-6 flex flex-col space-y-1 flex-grow"
+          className="text-white px-4 mr-2 my-1 flex flex-col space-y-1 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-slate-200/[0.5]"
+          style={{ maxHeight: "85%" }}
         >
           <ChannelContainer 
             channels={channels}
@@ -52,9 +53,9 @@ const Sidebar = (props) => {
             />
         </nav>
 
-        <div className="flex-grow"></div>
+        {/* <div className="flex-grow"></div> */}
 
-        <div className="sticky inset-x-0 bottom-0 border-t border-white/25">
+        <div className="logout inset-x-0 bottom-0 border-t border-white/25">
           <button
             type="button"
             className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"

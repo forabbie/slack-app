@@ -33,7 +33,7 @@ const ChannelContainer = (props) => {
     return (
         <>
         <details
-            className="group [&_summary::-webkit-details-marker]:hidden"
+            className="mt-4 group [&_summary::-webkit-details-marker]:hidden"
             open
         >
             <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]">

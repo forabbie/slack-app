@@ -2,7 +2,8 @@ const DirectMessageContainer = (props) => {
     const { toggleDirectMessage, submittedNames } = props
     return (
         <>
-            <details className="group [&_summary::-webkit-details-marker]:hidden">
+            <details className="group [&_summary::-webkit-details-marker]:hidden"
+            open>
                 <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]">
                     <div className="flex items-center gap-2">
                         <svg
@@ -49,7 +50,7 @@ const DirectMessageContainer = (props) => {
                     </ul>
                     <a
                         href="#"
-                        className="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-400/[0.4]" onClick={toggleDirectMessage}
+                        className="flex items-center gap-2 rounded-lg px-4 py-2 mb-4 hover:bg-gray-400/[0.4]" onClick={toggleDirectMessage}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
