@@ -199,7 +199,7 @@ const Sidebar = (props) => {
             </summary>
 
             <nav aria-label="Account Nav" className="mt-2 flex flex-col px-4">
-              <ul className="menu">
+              <ul className="directMessageList">
                 {submittedNames.map((name, index) => (
                   <li
                   key={index}

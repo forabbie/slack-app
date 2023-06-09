@@ -52,8 +52,12 @@ const OpenDirectMessage = (props) => {
         e.preventDefault();
         const userExists = userList.some((user) => user.email === name);
         const isDuplicateName = submittedNames.includes(name);
-        if(!userExists || isDuplicateName) {
+        if(!userExists) {
             return
+        }
+        if(isDuplicateName) {
+            setName('');
+            return;
         }
 
         setName('');
