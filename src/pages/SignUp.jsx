@@ -49,7 +49,7 @@ const SignUp = () => {
       console.error(error);
     }
   };
-
+  
   return (
     <>
       <div className="hero min-h-screen flex flex-col justify-center items-center h-screen">

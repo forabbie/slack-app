@@ -17,6 +17,7 @@ const Home = () => {
   const [channel, setChannel] = useState([]);
   const [open, setOpen] = useState(false);
   const [isDirectMessageVisible, setIsDirectMessageVisible] = useState(false);
+  const [submittedNames, setSubmittedNames] = useState([])
   const auth = getSessionStorage("loggedInUserAuth");
   const fetchUsers = async () => {
     try {
@@ -51,6 +52,31 @@ const Home = () => {
     setIsDirectMessageVisible(!isDirectMessageVisible);
   };
 
+  const hideForm = () => {
+    setIsDirectMessageVisible(false);
+  };
+
+
+  const handleSubmitName = (name) => {
+    const updatedNames = [...submittedNames, name];
+    setSubmittedNames(updatedNames);
+    sessionStorage.setItem('submittedNames', JSON.stringify(updatedNames))
+  };
+
+  useEffect(() => {
+    const savedNames = sessionStorage.getItem('submittedNames');
+    if (savedNames) {
+      try {
+        const parsedNames = JSON.parse(savedNames)
+        // console.log('parsedNames:', parsedNames)
+        setSubmittedNames(parsedNames)
+      } 
+      catch (error) {
+        console.error('Error parsing JSON:', error)
+      }
+    }
+  }, []);
+
   return (
     <>
       <div className="h-screen flex flex-col">
@@ -64,11 +90,17 @@ const Home = () => {
               setChannel={setChannel}
               handleToggleChannelModal={() => handleToggleChannelModal()}
               toggleDirectMessage={toggleDirectMessage}
+              submittedNames={submittedNames}
             />
             <Main
               channel={channel}
               setChannel={setChannel}
               isDirectMessageVisible={isDirectMessageVisible}
+              onHideForm = {hideForm}
+              handleSubmitName = {handleSubmitName}
+              fetchUsers={fetchUsers}
+              userList={users}
+              submittedNames={submittedNames}
             />
           </div>
         </main>
