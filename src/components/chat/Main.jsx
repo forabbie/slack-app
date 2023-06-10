@@ -24,7 +24,7 @@ const Main = (props) => {
         handleSubmitName={handleSubmitName}
         onHideForm={onHideForm}
         nameHeader={channel}
-        fetchUsers={fetchUsers}
+        fetchUsers={() => fetchUsers()}
         userList={userList}
         submittedNames={submittedNames}
       />

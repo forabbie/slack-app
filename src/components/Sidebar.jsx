@@ -5,12 +5,13 @@ import DirectMessageContainer from "./sidebar parts/DirectMessageContainer";
 
 const Sidebar = (props) => {
   const {
-    auth,
-    setChannel,
     channels,
-    handleToggleChannelModal,
+    modalOpen,
     toggleDirectMessage,
     submittedNames,
+    fetchChannel,
+    channelIndex,
+    setChannelIndex,
   } = props;
   const navigate = useNavigate();
 
@@ -50,9 +51,10 @@ const Sidebar = (props) => {
         >
           <ChannelContainer
             channels={channels}
-            auth={auth}
-            setChannel={setChannel}
-            handleToggleChannelModal={handleToggleChannelModal}
+            channelIndex={channelIndex}
+            setChannelIndex={setChannelIndex}
+            modalOpen={modalOpen}
+            fetchChannel={fetchChannel}
           />
           <DirectMessageContainer
             toggleDirectMessage={toggleDirectMessage}

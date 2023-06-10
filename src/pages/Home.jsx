@@ -34,6 +34,7 @@ const Home = () => {
   const auth = getSessionStorage("loggedInUserAuth");
 
   const fetchUsers = async () => {
+    console.log("log me");
     try {
       const response = await retrieveUsers(auth.headers);
       if (response) {
@@ -127,11 +128,10 @@ const Home = () => {
             <Main
               users={users}
               channel={channel}
-              setChannel={setChannel}
               isDirectMessageVisible={isDirectMessageVisible}
               onHideForm={hideForm}
               handleSubmitName={handleSubmitName}
-              fetchUsers={fetchUsers}
+              fetchUsers={() => fetchUsers()}
               userList={users}
               submittedNames={submittedNames}
               modalOpen={() => handleToggleModal("membersModalOpen")}
