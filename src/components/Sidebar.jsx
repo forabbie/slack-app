@@ -52,13 +52,13 @@ const Sidebar = (props) => {
             submittedNames={submittedNames}
             />
         </nav>
+        
+        <div className="flex-grow"></div>
 
-        {/* <div className="flex-grow"></div> */}
-
-        <div className="logout inset-x-0 bottom-0 border-t border-white/25">
+        <div className="logout flex flex-grow inset-x-0 bottom-0 border-t border-white/25">
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-400/[0.4]"
+            className="flex w-full items-center justify-center gap-2 px-4 text-white hover:bg-gray-400/[0.4]"
             onClick={onLogout}
           >
             <svg
