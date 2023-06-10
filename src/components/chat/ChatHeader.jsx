@@ -8,22 +8,26 @@ const ChatHeader = (props) => {
       <h1 className="text-2xl text-start">{channel?.name}</h1>
       <div className="flex justify-between gap-3">
         <button className="flex -space-x-1 overflow-hidden">
-          {/* <div className="avatar static placeholder">
-            <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
-              <span className="text-sm">K</span>
-            </div>
-          </div>
-          <div className="avatar static placeholder">
-            <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
-              <span className="text-sm">K</span>
-            </div>
-          </div> */}
           {members?.length > 0 &&
             members
               .map((member) => (
                 <div key={member.id} className="avatar static placeholder">
                   <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
-                    <span className="text-sm">K</span>
+                    {/* <span className="text-sm">K</span> */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                      />
+                    </svg>
                   </div>
                 </div>
               ))
