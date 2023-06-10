@@ -4,7 +4,15 @@ import ChannelContainer from "./sidebar parts/ChannelContainer";
 import DirectMessageContainer from "./sidebar parts/DirectMessageContainer";
 
 const Sidebar = (props) => {
-  const { auth, setChannel, channels, handleToggleChannelModal, toggleDirectMessage, submittedNames } = props;
+  const {
+    channels,
+    modalOpen,
+    toggleDirectMessage,
+    submittedNames,
+    fetchChannel,
+    channelIndex,
+    setChannelIndex,
+  } = props;
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -41,16 +49,17 @@ const Sidebar = (props) => {
           className="text-white px-4 mr-2 my-1 flex flex-col space-y-1 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-slate-200/[0.5]"
           style={{ maxHeight: "85%" }}
         >
-          <ChannelContainer 
+          <ChannelContainer
             channels={channels}
-            auth={auth}
-            setChannel={setChannel}
-            handleToggleChannelModal={handleToggleChannelModal}
+            channelIndex={channelIndex}
+            setChannelIndex={setChannelIndex}
+            modalOpen={modalOpen}
+            fetchChannel={fetchChannel}
           />
-          <DirectMessageContainer 
+          <DirectMessageContainer
             toggleDirectMessage={toggleDirectMessage}
             submittedNames={submittedNames}
-            />
+          />
         </nav>
         
         <div className="flex-grow"></div>

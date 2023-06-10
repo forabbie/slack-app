@@ -3,38 +3,54 @@ import { useState, useEffect } from "react";
 import debounce from "lodash.debounce";
 
 const AutoSuggestInput = (props) => {
-  const { users } = props;
-  const [inputValue, setInputValue] = useState("");
-  const [companies, setCompanies] = useState([]);
-  const [filteredCompanies, setFilteredCompanies] = useState([]);
+  const {
+    inputValue,
+    setInputValue,
+    users,
+    setUsers,
+    members,
+    setMembers,
+    selectMultiple,
+  } = props;
+  const [filteredUsers, setFilteredusers] = useState([]);
 
   useEffect(() => {
     const handleSearch = debounce((value) => {
       const query = value.toLowerCase().trim();
-      const filteredCompanies = companies.filter((company) =>
-        company.name.toLowerCase().includes(query)
+      const filteredUsers = users.filter((user) =>
+        user.email.toLowerCase().includes(query)
       );
-      setFilteredCompanies(filteredCompanies);
-      console.log(filteredCompanies);
+      setFilteredusers(filteredUsers);
     }, 500);
 
     handleSearch(inputValue);
-  }, [inputValue, companies]);
+  }, [inputValue, users]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
   };
 
-  // Mock data for demonstration
-  const prev_companies = [
-    { name: "Company 1" },
-    { name: "Company 2" },
-    { name: "Company 3" },
-  ];
+  const selectedMembers = (user) => {
+    if (!selectMultiple) {
+      if (members.length > 0) {
+        return; // Only allow one member when selectMultiple is false
+      }
+
+      setMembers([user]);
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+    } else {
+      if (members.some((member) => member.id === user.id)) {
+        return; // Member already exists, do not add again
+      }
+
+      setMembers((prevMembers) => [...prevMembers, user]);
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+    }
+  };
 
   useEffect(() => {
-    setCompanies(prev_companies);
+    setUsers(users);
   }, []);
 
   return (
@@ -45,12 +61,20 @@ const AutoSuggestInput = (props) => {
         onChange={handleInputChange}
         className="input input-bordered w-full"
       />
-      {filteredCompanies.length > 0 && (
-        <ul>
-          {filteredCompanies.map((company, index) => (
-            <li key={index}>{company.name}</li>
-          ))}
-        </ul>
+      {filteredUsers.length > 0 && inputValue && (
+        <div className="menu shadow border bg-base-100 mt-2 rounded-lg dropdown-content overflow-y-scroll max-h-40">
+          <ul className="">
+            {filteredUsers.map((user, index) => (
+              <li
+                key={index}
+                onClick={() => selectedMembers(user)}
+                className="border-b"
+              >
+                <a>{user.email}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

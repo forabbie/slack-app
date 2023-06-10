@@ -17,10 +17,9 @@ const Login = () => {
         password,
       });
       if (response) {
-        console.log(response.headers);
         const authData = {
           data: {
-            userId: response.data.id,
+            userId: response.data.data.id,
           },
           headers: {
             "access-token": response.headers["access-token"],

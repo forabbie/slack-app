@@ -1,25 +1,40 @@
 import Header from "../components/Header";
 import Sidbar from "../components/Sidebar";
 import Main from "../components/chat/Main";
-// import { user, auth } from "../constant/UserConst";
 import {
   retrieveUsers,
+  retrieveChannel,
   retrieveChannels,
   createChannel,
+  addMember,
 } from "../services/api.service";
+import {
+  setSessionStorage,
+  getSessionStorage,
+} from "../services/storage.service";
 import { useEffect, useState } from "react";
-import { getSessionStorage } from "../services/storage.service";
 import ChannelFormModal from "../components/modals/ChannelFormModal";
+import AddMembersModal from "../components/modals/AddMembersModal";
 
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [channels, setChannels] = useState([]);
-  const [channel, setChannel] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [channel, setChannel] = useState({});
   const [isDirectMessageVisible, setIsDirectMessageVisible] = useState(false);
-  const [submittedNames, setSubmittedNames] = useState([])
+  const [submittedNames, setSubmittedNames] = useState([]);
+  const [channelIndex, setChannelIndex] = useState(() => {
+    const store = getSessionStorage("CH-Index", false);
+    return parseInt(store) || 0;
+  });
+
+  const [modals, setModals] = useState({
+    channelModalOpen: false,
+    membersModalOpen: false,
+  });
   const auth = getSessionStorage("loggedInUserAuth");
+
   const fetchUsers = async () => {
+    console.log("log me");
     try {
       const response = await retrieveUsers(auth.headers);
       if (response) {
@@ -29,11 +44,26 @@ const Home = () => {
       console.log("e", error);
     }
   };
+
   const fetchChannels = async () => {
     try {
       const response = await retrieveChannels(auth.headers);
       if (response) {
+        const channelID = response.data[0].id;
         setChannels(response.data);
+        if (getSessionStorage("CH-Index", false)) return;
+        setSessionStorage("CH-Index", channelID, false);
+      }
+    } catch (error) {
+      console.log("e", error);
+    }
+  };
+
+  const fetchChannel = async (id) => {
+    try {
+      const response = await retrieveChannel(auth.headers, id);
+      if (response) {
+        setChannel(response.data);
       }
     } catch (error) {
       console.log("e", error);
@@ -42,10 +72,14 @@ const Home = () => {
   useEffect(() => {
     fetchUsers();
     fetchChannels();
+    fetchChannel(parseInt(getSessionStorage("CH-Index", false)));
   }, []);
 
-  const handleToggleChannelModal = () => {
-    setOpen((prev) => !prev);
+  const handleToggleModal = (modalName) => {
+    setModals((prevState) => ({
+      ...prevState,
+      [modalName]: !prevState[modalName],
+    }));
   };
 
   const toggleDirectMessage = () => {
@@ -56,23 +90,21 @@ const Home = () => {
     setIsDirectMessageVisible(false);
   };
 
-
   const handleSubmitName = (name) => {
     const updatedNames = [...submittedNames, name];
     setSubmittedNames(updatedNames);
-    sessionStorage.setItem('submittedNames', JSON.stringify(updatedNames))
+    sessionStorage.setItem("submittedNames", JSON.stringify(updatedNames));
   };
 
   useEffect(() => {
-    const savedNames = sessionStorage.getItem('submittedNames');
+    const savedNames = sessionStorage.getItem("submittedNames");
     if (savedNames) {
       try {
-        const parsedNames = JSON.parse(savedNames)
+        const parsedNames = JSON.parse(savedNames);
         // console.log('parsedNames:', parsedNames)
-        setSubmittedNames(parsedNames)
-      } 
-      catch (error) {
-        console.error('Error parsing JSON:', error)
+        setSubmittedNames(parsedNames);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
       }
     }
   }, []);
@@ -80,39 +112,56 @@ const Home = () => {
   return (
     <>
       <div className="h-screen flex flex-col">
-        <Header />
+        <Header auth={auth} />
         <main className="h-full">
           <div className="flex h-full">
             <Sidbar
-              auth={auth}
               channels={channels}
-              setChannels={setChannels}
               setChannel={setChannel}
-              handleToggleChannelModal={() => handleToggleChannelModal()}
+              channelIndex={channelIndex}
+              fetchChannel={fetchChannel}
+              setChannelIndex={setChannelIndex}
               toggleDirectMessage={toggleDirectMessage}
               submittedNames={submittedNames}
+              modalOpen={() => handleToggleModal("channelModalOpen")}
             />
             <Main
+              users={users}
               channel={channel}
-              setChannel={setChannel}
               isDirectMessageVisible={isDirectMessageVisible}
-              onHideForm = {hideForm}
-              handleSubmitName = {handleSubmitName}
-              fetchUsers={fetchUsers}
+              onHideForm={hideForm}
+              handleSubmitName={handleSubmitName}
+              fetchUsers={() => fetchUsers()}
               userList={users}
               submittedNames={submittedNames}
+              modalOpen={() => handleToggleModal("membersModalOpen")}
             />
           </div>
         </main>
       </div>
       <ChannelFormModal
+        open={modals.channelModalOpen}
         auth={auth}
         users={users}
-        open={open}
-        setOpen={setOpen}
+        setUsers={setUsers}
         createChannel={createChannel}
+        fetchUsers={() => fetchUsers()}
         fetchChannels={() => fetchChannels()}
-        onClick={() => handleToggleChannelModal()}
+        onClick={() => handleToggleModal("channelModalOpen")}
+      />
+      <AddMembersModal
+        open={modals.membersModalOpen}
+        auth={auth}
+        users={users}
+        channel={channel}
+        setUsers={setUsers}
+        addMember={addMember}
+        fetchUsers={() => fetchUsers()}
+        fetchChannels={() => fetchChannels()}
+        fetchChannel={() =>
+          fetchChannel(parseInt(getSessionStorage("CH-Index", false)))
+        }
+        onClick={() => handleToggleModal("membersModalOpen")}
       />
     </>
   );
