@@ -3,8 +3,15 @@ import { useState, useEffect } from "react";
 import debounce from "lodash.debounce";
 
 const AutoSuggestInput = (props) => {
-  const { users, setUsers, members, setMembers } = props;
-  const [inputValue, setInputValue] = useState("");
+  const {
+    inputValue,
+    setInputValue,
+    users,
+    setUsers,
+    members,
+    setMembers,
+    selectMultiple,
+  } = props;
   const [filteredUsers, setFilteredusers] = useState([]);
 
   useEffect(() => {
@@ -25,13 +32,21 @@ const AutoSuggestInput = (props) => {
   };
 
   const selectedMembers = (user) => {
-    if (members.some((member) => member.id === user.id)) {
-      return; // Member already exists, do not add again
-    }
+    if (!selectMultiple) {
+      if (members.length > 0) {
+        return; // Only allow one member when selectMultiple is false
+      }
 
-    setMembers((prevMembers) => [...prevMembers, user]);
-    setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
-    console.log(members);
+      setMembers([user]);
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+    } else {
+      if (members.some((member) => member.id === user.id)) {
+        return; // Member already exists, do not add again
+      }
+
+      setMembers((prevMembers) => [...prevMembers, user]);
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+    }
   };
 
   useEffect(() => {

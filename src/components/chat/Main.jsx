@@ -4,17 +4,15 @@ import ChatHeader from "./ChatHeader";
 // import ChatInput from "./ChatInput";
 
 const Main = (props) => {
-  const { channel, isDirectMessageVisible } = props;
-  
+  const { users, channel, modalOpen, isDirectMessageVisible } = props;
+
   return (
-    <>
-      <section className="flex-1">
-        <ChatHeader channel={channel} />
-        <OpenDirectMessage isDirectMessageVisible={isDirectMessageVisible}/>
-        {/* <div className="text-center">inner</div> */}
-        {/* <ChatInput /> */}
-      </section>
-    </>
+    <section className="flex-1">
+      <ChatHeader users={users} channel={channel} modalOpen={modalOpen} />
+      <OpenDirectMessage isDirectMessageVisible={isDirectMessageVisible} />
+      {/* <div className="text-center">inner</div> */}
+      {/* <ChatInput /> */}
+    </section>
   );
 };
 

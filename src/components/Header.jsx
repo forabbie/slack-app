@@ -4,13 +4,18 @@ import DropDown from "./forms/DropDown";
 import DropDownLabel from "./forms/DropDownLabel";
 import Svg from "./parts/Svg";
 import List from "./forms/List";
+import PropTypes from "prop-types";
 
-const Header = () => {
+const Header = ({ auth }) => {
+  const email = auth.headers.uid;
+  const firstCharacter = email.charAt(0);
+  const atIndex = email.indexOf("@");
+  const characterAfterAt = email.charAt(atIndex + 1);
+  const initial = firstCharacter + characterAfterAt;
   const navigate = useNavigate();
   const btnClassName =
     "btn btn-xs btn-block bg-slate-50/50 border-0 hover:bg-slate-50/50 no-animation text-white font-light";
   const onLogout = () => {
-    console.log("log me out");
     sessionStorage.clear();
     navigate("/login");
   };
@@ -63,12 +68,11 @@ const Header = () => {
                 </div>
               </div>
             </DropDown>
-
             <DropDown className={""}>
               <DropDownLabel labelClass={"btn-ghost btn-square"}>
                 <div className="avatar placeholder">
                   <div className="bg-neutral-focus text-neutral-content mask mask-squircle w-8">
-                    <span>MX</span>
+                    <span>{initial}</span>
                   </div>
                 </div>
               </DropDownLabel>
@@ -86,4 +90,7 @@ const Header = () => {
   );
 };
 
+Header.propTypes = {
+  auth: PropTypes.object,
+};
 export default Header;
