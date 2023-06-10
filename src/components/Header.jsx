@@ -22,7 +22,7 @@ const Header = ({ auth }) => {
   const dropDownList = [
     { name: "Profile", href: "#", icon: "" },
     { name: "Settings", href: "#", icon: "" },
-    { name: "Logout", href: "#", icon: "", onClick: onLogout },
+    // { name: "Logout", href: "#", icon: "", onClick: onLogout },
   ];
   return (
     <>
