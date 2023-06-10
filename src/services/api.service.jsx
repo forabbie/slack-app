@@ -33,3 +33,11 @@ export const retrieveChannel = async (data, id) => {
   });
   return await res.data;
 };
+
+export const addMember = async ({ data, id, member_id }) => {
+  return await axios.post(
+    "http://206.189.91.54/api/v1/channel/add_member",
+    { id, member_id },
+    { headers: data }
+  );
+};

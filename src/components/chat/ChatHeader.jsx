@@ -1,16 +1,14 @@
 /* eslint-disable react/prop-types */
 const ChatHeader = (props) => {
-  const { channel } = props;
-  const count =
-    channel?.channel_members?.length - 3 >= 1
-      ? channel?.channel_members?.length - 3
-      : 0;
+  const { channel, modalOpen } = props;
+  const members = channel?.channel_members;
+  const count = (channel?.channel_members?.length || 0) - 3;
   return (
     <div className="w-full flex justify-between border-b py-2 px-5">
       <h1 className="text-2xl text-start">{channel?.name}</h1>
       <div className="flex justify-between gap-3">
         <button className="flex -space-x-1 overflow-hidden">
-          <div className="avatar static placeholder">
+          {/* <div className="avatar static placeholder">
             <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
               <span className="text-sm">K</span>
             </div>
@@ -19,13 +17,18 @@ const ChatHeader = (props) => {
             <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
               <span className="text-sm">K</span>
             </div>
-          </div>
-          <div className="avatar static placeholder">
-            <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
-              <span className="text-sm">K</span>
-            </div>
-          </div>
-          {count !== 0 && (
+          </div> */}
+          {members?.length > 0 &&
+            members
+              .map((member) => (
+                <div key={member.id} className="avatar static placeholder">
+                  <div className="bg-neutral-focus text-neutral-content rounded-full w-8 ring-2 ring-white">
+                    <span className="text-sm">K</span>
+                  </div>
+                </div>
+              ))
+              .splice(0, 3)}
+          {count >= 1 && (
             <div className="avatar static placeholder">
               <div className="text-neutral-content rounded-full w-8 ring-2 ring-white bg-slate-950">
                 <span className="text-sm">+{count}</span>
@@ -33,7 +36,7 @@ const ChatHeader = (props) => {
             </div>
           )}
         </button>
-        <button className="btn btn-square btn-sm">
+        <button onClick={modalOpen} className="btn btn-square btn-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
